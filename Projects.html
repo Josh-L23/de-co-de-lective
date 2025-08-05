@@ -148,13 +148,39 @@
       }
 
       .menu-toggle {
-        display: none;
+        display: none; /* Hidden by default on desktop */
         background: none;
         border: none;
         color: var(--primary-text);
         font-size: 1.5rem;
         cursor: pointer;
         z-index: 1001;
+
+        /* Styles for layout and a consistent clickable area */
+        position: relative;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+      }
+
+      .menu-toggle i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .menu-toggle .fa-times {
+        opacity: 0;
+      }
+
+      .menu-toggle.active .fa-bars {
+        opacity: 0;
+      }
+
+      .menu-toggle.active .fa-times {
+        opacity: 1;
       }
 
       /* Hero Section */
@@ -817,7 +843,7 @@
         }
 
         .menu-toggle {
-          display: block;
+          display: flex;
         }
 
         nav {
@@ -908,6 +934,7 @@
       </a>
       <button class="menu-toggle">
         <i class="fas fa-bars"></i>
+        <i class="fas fa-times"></i>
       </button>
       <nav>
         <ul>
@@ -1138,9 +1165,7 @@
 
       menuToggle.addEventListener("click", () => {
         nav.classList.toggle("active");
-        menuToggle.innerHTML = nav.classList.contains("active")
-          ? '<i class="fas fa-times"></i>'
-          : '<i class="fas fa-bars"></i>';
+        menuToggle.classList.toggle("active"); // Toggle active class on the button itself
       });
 
       // Close menu when clicking outside (Projects Page)
