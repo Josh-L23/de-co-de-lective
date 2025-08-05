@@ -124,14 +124,43 @@
         transform: rotate(30deg);
       }
 
+      /* FIXED: Hamburger Menu Button */
       .menu-toggle {
         display: none;
         background: none;
         border: none;
         color: var(--text-dark);
-        font-size: 1.5rem;
+        font-size: 1.8rem; /* Increased font size */
         cursor: pointer;
         z-index: 1001;
+        padding: 12px; /* Added padding to make entire area clickable */
+        position: relative;
+        width: 50px; /* Fixed width */
+        height: 50px; /* Fixed height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .menu-toggle i {
+        position: absolute;
+        transition: var(--transition);
+      }
+
+      .menu-toggle .fa-bars {
+        opacity: 1;
+      }
+
+      .menu-toggle .fa-times {
+        opacity: 0;
+      }
+
+      .menu-toggle.active .fa-bars {
+        opacity: 0;
+      }
+
+      .menu-toggle.active .fa-times {
+        opacity: 1;
       }
 
       /* Hero Section */
@@ -576,7 +605,7 @@
         }
 
         .menu-toggle {
-          display: block;
+          display: flex; /* Changed to flex for proper centering */
         }
 
         nav {
@@ -659,10 +688,11 @@
     <!-- Header -->
     <header>
       <a href="#" class="logo">Code<span>Collective</span></a>
-      <button class="menu-toggle">
+      <button class="menu-toggle" id="menuToggle">
         <i class="fas fa-bars"></i>
+        <i class="fas fa-times"></i>
       </button>
-      <nav>
+      <nav id="navMenu">
         <ul>
           <li><a href="#about">About</a></li>
           <li><a href="#team">Team</a></li>
@@ -896,15 +926,13 @@
         }
       });
 
-      // Mobile Menu Toggle
-      const menuToggle = document.querySelector(".menu-toggle");
-      const nav = document.querySelector("nav");
+      // Mobile Menu Toggle - FIXED CLICK AREA
+      const menuToggle = document.getElementById("menuToggle");
+      const nav = document.getElementById("navMenu");
 
       menuToggle.addEventListener("click", () => {
         nav.classList.toggle("active");
-        menuToggle.innerHTML = nav.classList.contains("active")
-          ? '<i class="fas fa-times"></i>'
-          : '<i class="fas fa-bars"></i>';
+        menuToggle.classList.toggle("active");
       });
 
       // Close menu when clicking outside
@@ -915,7 +943,7 @@
 
         if (isMenuOpen && !isClickInsideNav && !isClickOnMenuButton) {
           nav.classList.remove("active");
-          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+          menuToggle.classList.remove("active");
         }
       });
 
@@ -1012,7 +1040,7 @@
             // Close mobile menu if open
             if (nav.classList.contains("active")) {
               nav.classList.remove("active");
-              menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+              menuToggle.classList.remove("active");
             }
           }
         });
