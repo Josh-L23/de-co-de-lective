@@ -8,6 +8,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       /* Base Styles */
       :root {
@@ -143,6 +147,16 @@
         font-weight: 600;
       }
 
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--primary-text);
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
       /* Hero Section */
       .projects-hero {
         height: 80vh;
@@ -157,9 +171,43 @@
         margin-top: 80px;
       }
 
-      .hero-content {
-        max-width: 800px;
-        z-index: 2;
+      .paint-splash {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        filter: blur(30px);
+        opacity: 0.7;
+        z-index: -1;
+        animation: float 8s infinite ease-in-out;
+      }
+
+      .splash-1 {
+        background: var(--accent-1);
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+
+      .splash-2 {
+        background: var(--accent-2);
+        top: 20%;
+        right: 15%;
+        animation-delay: 1s;
+      }
+
+      .splash-3 {
+        background: var(--accent-3);
+        bottom: 15%;
+        left: 20%;
+        animation-delay: 2s;
+      }
+
+      .splash-4 {
+        background: var(--accent-4);
+        bottom: 20%;
+        right: 10%;
+        animation-delay: 3s;
       }
 
       .projects-hero h1 {
@@ -179,6 +227,8 @@
 
       .projects-hero p {
         font-size: 1.3rem;
+        max-width: 700px;
+        margin-bottom: 2rem;
         color: #4b5563;
       }
 
@@ -186,7 +236,7 @@
       .featured-projects {
         padding: 6rem 5%;
         position: relative;
-        background-color: var(--card-bg);
+        background-color: white;
         border-radius: 30px 30px 0 0;
         box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.05);
         transition: var(--transition);
@@ -221,7 +271,7 @@
         display: flex;
         align-items: center;
         gap: 4rem;
-        background: var(--card-bg);
+        background: white;
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
@@ -346,7 +396,7 @@
       .coming-soon {
         padding: 6rem 5%;
         text-align: center;
-        background-color: var(--primary-bg);
+        background-color: #f8fafc;
         position: relative;
         transition: var(--transition);
       }
@@ -371,7 +421,7 @@
       }
 
       .project-tile {
-        background: var(--card-bg);
+        background: white;
         border-radius: 20px;
         padding: 2.5rem 2rem;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -390,6 +440,36 @@
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
       }
 
+      .project-tile::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+          transparent,
+          var(--accent-blue),
+          transparent 30%
+        );
+        animation: rotate 4s linear infinite;
+        z-index: 1;
+      }
+
+      .project-tile-content {
+        position: relative;
+        z-index: 2;
+        background: white;
+        width: calc(100% - 8px);
+        height: calc(100% - 8px);
+        border-radius: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+
       .tile-icon {
         width: 70px;
         height: 70px;
@@ -399,9 +479,21 @@
         justify-content: center;
         margin-bottom: 1.5rem;
         font-size: 1.8rem;
+      }
+
+      .tile-1 .tile-icon {
         background-color: rgba(123, 97, 255, 0.1);
         color: var(--accent-1);
-        transition: var(--transition);
+      }
+
+      .tile-2 .tile-icon {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--accent-2);
+      }
+
+      .tile-3 .tile-icon {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--accent-3);
       }
 
       .project-tile h4 {
@@ -685,7 +777,16 @@
         }
       }
 
-      /* Responsive Design */
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive Design - Fixed Header Resizing */
       @media (max-width: 992px) {
         .projects-hero h1 {
           font-size: 3.5rem;
@@ -711,6 +812,39 @@
       }
 
       @media (max-width: 768px) {
+        header {
+          padding: 1rem 5%;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        nav {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 70%;
+          height: 100vh;
+          background-color: var(--header-bg);
+          padding: 6rem 2rem 2rem;
+          transition: var(--transition);
+          z-index: 900;
+          box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav.active {
+          right: 0;
+        }
+
+        nav ul {
+          flex-direction: column;
+        }
+
+        nav ul li {
+          margin: 1rem 0;
+        }
+
         .projects-hero h1 {
           font-size: 2.8rem;
         }
@@ -735,6 +869,28 @@
           font-size: 2.5rem;
         }
       }
+
+      @media (max-width: 480px) {
+        .projects-hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .projects-hero p {
+          font-size: 1rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .project-info h3 {
+          font-size: 1.8rem;
+        }
+
+        .more-to-come {
+          font-size: 2rem;
+        }
+      }
     </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
@@ -747,9 +903,12 @@
 
     <!-- Header -->
     <header>
-      <a href="#" class="logo">
+      <a href="index.html" class="logo">
         <i class="fas fa-code"></i>Code<span>Collective</span>
       </a>
+      <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav>
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -762,13 +921,16 @@
 
     <!-- Hero Section -->
     <section class="projects-hero">
-      <div class="hero-content">
-        <h1>Our Creative Journey</h1>
-        <p>
-          Where passion meets innovation - explore the digital solutions we've
-          crafted to enhance student life
-        </p>
-      </div>
+      <div class="paint-splash splash-1"></div>
+      <div class="paint-splash splash-2"></div>
+      <div class="paint-splash splash-3"></div>
+      <div class="paint-splash splash-4"></div>
+
+      <h1>Our Creative Journey</h1>
+      <p>
+        Where passion meets innovation - explore the digital solutions we've
+        crafted to enhance student life
+      </p>
     </section>
 
     <!-- Featured Projects -->
@@ -856,35 +1018,42 @@
       </p>
 
       <div class="project-grid">
-        <div class="project-tile">
-          <div class="tile-icon">
-            <i class="fas fa-book-open"></i>
+        <div class="project-tile tile-1">
+          <div class="project-tile-content">
+            <div class="tile-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h4>StudyHub</h4>
+            <p>
+              Collaborative platform for study groups with real-time document
+              sharing
+            </p>
           </div>
-          <h4>StudyHub</h4>
-          <p>
-            Collaborative platform for study groups with real-time document
-            sharing
-          </p>
         </div>
 
-        <div class="project-tile">
-          <div class="tile-icon">
-            <i class="fas fa-chalkboard-teacher"></i>
+        <div class="project-tile tile-2">
+          <div class="project-tile-content">
+            <div class="tile-icon">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <h4>EduConnect</h4>
+            <p>
+              Platform connecting students with tutors and educational resources
+            </p>
           </div>
-          <h4>EduConnect</h4>
-          <p>
-            Platform connecting students with tutors and educational resources
-          </p>
         </div>
 
-        <div class="project-tile">
-          <div class="tile-icon">
-            <i class="fas fa-brain"></i>
+        <div class="project-tile tile-3">
+          <div class="project-tile-content">
+            <div class="tile-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h4>MindMapper</h4>
+            <p>
+              AI-powered concept mapping tool that helps visualize complex
+              topics
+            </p>
           </div>
-          <h4>MindMapper</h4>
-          <p>
-            AI-powered concept mapping tool that helps visualize complex topics
-          </p>
         </div>
       </div>
     </section>
@@ -962,6 +1131,29 @@
             }
         `;
       document.head.appendChild(style);
+
+      // Mobile Menu Functionality for Projects Page
+      const menuToggle = document.querySelector(".menu-toggle");
+      const nav = document.querySelector("nav");
+
+      menuToggle.addEventListener("click", () => {
+        nav.classList.toggle("active");
+        menuToggle.innerHTML = nav.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      });
+
+      // Close menu when clicking outside (Projects Page)
+      document.addEventListener("click", (e) => {
+        const isMenuOpen = nav.classList.contains("active");
+        const isClickInsideNav = nav.contains(e.target);
+        const isClickOnMenuButton = menuToggle.contains(e.target);
+
+        if (isMenuOpen && !isClickInsideNav && !isClickOnMenuButton) {
+          nav.classList.remove("active");
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
     </script>
   </body>
 </html>

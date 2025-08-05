@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Code Collective | Tech Innovators</title>
+    <title>The Code Collective | Tech Enthusiasts</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -131,6 +131,7 @@
         color: var(--text-dark);
         font-size: 1.5rem;
         cursor: pointer;
+        z-index: 1001;
       }
 
       /* Hero Section */
@@ -404,6 +405,9 @@
         width: 220px;
         transition: var(--transition);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        /* Fix for contact card links */
+        overflow-wrap: break-word;
+        word-break: break-word;
       }
 
       .contact-card:hover {
@@ -424,6 +428,9 @@
 
       .contact-card p {
         color: #555;
+        /* Ensure text wraps properly */
+        overflow-wrap: break-word;
+        word-break: break-all;
       }
 
       /* Footer */
@@ -612,13 +619,46 @@
         .member-image {
           height: 300px;
         }
+
+        /* Fix for contact cards on small screens */
+        .contact-methods {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .contact-card {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero p {
+          font-size: 0.9rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .member-info h3 {
+          font-size: 1.5rem;
+        }
+
+        .member-info p {
+          font-size: 0.95rem;
+        }
       }
     </style>
   </head>
   <body>
     <!-- Header -->
     <header>
-      <a href="index.html" class="logo">Code<span>Collective</span></a>
+      <a href="#" class="logo">Code<span>Collective</span></a>
       <button class="menu-toggle">
         <i class="fas fa-bars"></i>
       </button>
@@ -795,21 +835,21 @@
               <i class="fas fa-envelope"></i>
             </div>
             <h3>Email</h3>
-            <p>contact@codecollective.dev</p>
+            <p>coming soon...</p>
           </div>
           <div class="contact-card animate-on-scroll">
             <div class="contact-icon">
               <i class="fab fa-github"></i>
             </div>
             <h3>GitHub</h3>
-            <p>github.com/codecollective</p>
+            <p>coming soon...</p>
           </div>
           <div class="contact-card animate-on-scroll">
             <div class="contact-icon">
               <i class="fab fa-linkedin"></i>
             </div>
             <h3>LinkedIn</h3>
-            <p>linkedin.com/company/codecollective</p>
+            <p>coming soon...</p>
           </div>
         </div>
       </div>
@@ -862,6 +902,21 @@
 
       menuToggle.addEventListener("click", () => {
         nav.classList.toggle("active");
+        menuToggle.innerHTML = nav.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener("click", (e) => {
+        const isMenuOpen = nav.classList.contains("active");
+        const isClickInsideNav = nav.contains(e.target);
+        const isClickOnMenuButton = menuToggle.contains(e.target);
+
+        if (isMenuOpen && !isClickInsideNav && !isClickOnMenuButton) {
+          nav.classList.remove("active");
+          menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
       });
 
       // Header scroll effect
@@ -957,6 +1012,7 @@
             // Close mobile menu if open
             if (nav.classList.contains("active")) {
               nav.classList.remove("active");
+              menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
             }
           }
         });
